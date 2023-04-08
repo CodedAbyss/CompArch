@@ -1,0 +1,37 @@
+li a0, 3
+li x15, FACTORIAL
+jal ra, x15+0
+debug "result: %d", a0
+bnz x1, 0
+
+:FACTORIAL
+bnz a0, SKIP
+li a0, 1
+jal x0, ra+0
+:SKIP
+inc sp, -4
+sw  s0, sp+0
+sw  ra, sp+2
+add s0, a0, x0
+inc a0, -1
+li x15, FACTORIAL
+jal ra, x15+0   //recurse
+add a1, s0, x0
+li  x15, MULT
+jal ra, x15+0   //multiply
+lw  s0, sp+0
+lw  ra, sp+2
+inc sp, 4
+jal x0, ra+0
+
+:MULT
+add t0, a0, x0  //t0 = a0
+li  a0, 0       //a0 = 0
+:LOOP
+inc t0, -1
+add a0, a0, a1 
+bnz t0, LOOP
+jal x0, ra+0
+
+
+

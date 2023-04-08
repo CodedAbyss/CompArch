@@ -1,0 +1,27 @@
+lui s0, 4
+lw t2, s0+0
+li t1, 2
+:LOOP
+add a0, t2, x0
+add a1, t1, x0
+li x15, GCD
+jal ra, x15+0
+li x15, 1
+eq t0, a0, x15
+bnz t0, END
+inc t1, 1
+bnz x1, LOOP
+:END
+sw t1, s0+2
+:GCD
+eq t0, a1, x0
+bnz t0, RET 
+lt t0, a1, a0
+bnz t0, SET_A
+sub a1, a1, a0
+bnz x1, GCD
+:SET_A
+sub a0, a0, a1
+bnz x1, GCD
+:RET
+jal x0, ra+0
